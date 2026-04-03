@@ -19,6 +19,14 @@ jobs:
           script: |
             const reviewer = context.payload.review.user.login;
 
+            // Whitelisted agents bypass the account age check
+            const whitelist = ['fielding', 'sedge-bot'];
+
+            if (whitelist.includes(reviewer)) {
+              console.log(`Reviewer ${reviewer} is whitelisted — skipping age check.`);
+              return;
+            }
+
             const user = await github.rest.users.getByUsername({ username: reviewer });
             const createdAt = new Date(user.data.created_at);
             const now = new Date();
