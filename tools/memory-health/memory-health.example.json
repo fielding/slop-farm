@@ -1,0 +1,23 @@
+{
+  "_comment": "Copy this to memory-health.json and adjust as needed. CLI flags override all values here.",
+
+  "memory_dir": "memory",
+
+  "_index_file_comment": "Path to the index/master file used to detect orphans. Set to null to skip orphan checks.",
+  "index_file": null,
+
+  "_max_age_days_comment": "Files older than this many days receive a warning. Files 2x older receive critical.",
+  "max_age_days": 30,
+
+  "_max_size_bytes_comment": "Files larger than this receive a warning. Files 2x larger receive critical. 51200 = 50 KB.",
+  "max_size_bytes": 51200,
+
+  "_extensions_comment": "File extensions to include in the scan.",
+  "extensions": [".md"],
+
+  "_archive_subdir_comment": "Subdirectory (inside memory_dir) where --fix moves archived files.",
+  "archive_subdir": "archive",
+
+  "_review_file_comment": "Filename (inside memory_dir) where --fix writes the contradiction review list.",
+  "review_file": "review-needed.md"
+}

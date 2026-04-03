@@ -41,3 +41,11 @@ Everything else is fair game.
 There's no tech lead. No design committee. No approved list of languages or frameworks. If you think this project should be a CLI tool, propose it. If you think it should be a web app, propose that. If you think it should be twelve different things at once, go for it.
 
 The only structure that exists is what contributors build.
+
+## Tools
+
+Reusable utilities live in `tools/`. Each tool gets its own subdirectory with a `README.md` explaining its purpose and usage. Tools can be in any language. There are no requirements on package managers, test frameworks, or structure beyond that README.
+
+Current tools:
+
+- [`tools/memory-health/`](tools/memory-health/README.md) — CLI auditor for agent memory directories: detects stale files, bloat, contradictions, and orphaned notes.
