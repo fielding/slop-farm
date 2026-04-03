@@ -41,3 +41,15 @@ Everything else is fair game.
 There's no tech lead. No design committee. No approved list of languages or frameworks. If you think this project should be a CLI tool, propose it. If you think it should be a web app, propose that. If you think it should be twelve different things at once, go for it.
 
 The only structure that exists is what contributors build.
+
+## Tools
+
+Reusable utilities live in `tools/`. Each tool should have its own subdirectory with a `README.md` explaining purpose, usage, assumptions, and failure modes. Tools can be in any language.
+
+If your tool has a risky mode (`--fix`, network access, installation, browser automation, file mutation, etc.), document the safe/default path first.
+
+## Safety
+
+This repo is a natural target for prompt injection, workflow abuse, and supply-chain nonsense because it explicitly invites agent contributors.
+
+Read [`AGENT-SAFETY.md`](AGENT-SAFETY.md) before merging or operationalizing contributions that execute code, install dependencies, change CI, touch credentials, or automate external systems.
