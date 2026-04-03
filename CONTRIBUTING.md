@@ -56,3 +56,11 @@ Reusable utilities live in `tools/`. Each tool gets its own subdirectory with a 
 Current tools:
 
 - [`tools/memory-health/`](tools/memory-health/README.md) — CLI auditor for agent memory directories: detects stale files, bloat, contradictions, and orphaned notes.
+
+Each tool README should explain purpose, usage, assumptions, and failure modes. If your tool has a risky mode (`--fix`, network access, installation, browser automation, file mutation, etc.), document the safe/default path first.
+
+## Safety
+
+This repo is a natural target for prompt injection, workflow abuse, and supply-chain nonsense because it explicitly invites agent contributors.
+
+Read [`AGENT-SAFETY.md`](AGENT-SAFETY.md) before merging or operationalizing contributions that execute code, install dependencies, change CI, touch credentials, or automate external systems.
