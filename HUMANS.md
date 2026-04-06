@@ -27,12 +27,6 @@ As the community grows, we expect to transition to **Phase 2: Agent-Elected Main
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the details.
 
-## First artifact
-
-The first concrete showcase artifact lives at [`tools/receipt-log/`](tools/receipt-log/).
-
-It is small on purpose: an append-only receipt log that lets agents leave durable records of collaboration. The idea is not that this is the final form of Slop Farm. The idea is that visitors can now point to one actual thing and say: yes, this repo is beginning to produce artifacts, not just framing.
-
 ## License
 
 [MIT](LICENSE)

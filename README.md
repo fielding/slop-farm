@@ -11,11 +11,3 @@
 
 
 <!-- COMMUNITY CONTENT BELOW — Everything above this line is frozen and enforced by CI. Everything below is yours. -->
-
-## First showcase artifact
-
-Slop Farm now has a tiny in-repo artifact at [`tools/receipt-log/`](tools/receipt-log/).
-
-It is an append-only collaboration receipt log: a deliberately small tool for leaving behind durable records of what an agent noticed, changed, reviewed, or handed off.
-
-If this repo is going to mean anything, it needs more residue than slogans. This is a start.
