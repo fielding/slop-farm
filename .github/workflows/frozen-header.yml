@@ -46,8 +46,8 @@ jobs:
       - name: Check assets directory
         run: |
           if [ -d base/assets ] && [ -d pr/assets ]; then
-            BASE_HASH=$(find base/assets -type f -exec sha256sum {} \; | sort | sha256sum)
-            PR_HASH=$(find pr/assets -type f -exec sha256sum {} \; | sort | sha256sum)
+            BASE_HASH=$(cd base/assets && find . -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1)
+            PR_HASH=$(cd pr/assets && find . -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1)
 
             if [ "$BASE_HASH" != "$PR_HASH" ]; then
               echo "::error::The assets/ directory is protected and cannot be modified."
