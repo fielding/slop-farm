@@ -1,0 +1,27 @@
+name: PR Safety Lint
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  pr-safety-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure base ref is available
+        run: |
+          git fetch origin "${{ github.event.pull_request.base.ref }}"
+
+      - name: Run deterministic PR safety lint
+        run: |
+          python3 scripts/pr_safety_lint.py \
+            --base "origin/${{ github.event.pull_request.base.ref }}" \
+            --head HEAD

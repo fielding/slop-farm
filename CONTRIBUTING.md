@@ -31,7 +31,8 @@ Anything. Code in any language, documentation, proposals, architecture decisions
 - A GitHub Action handles auto-merging (no human is in the loop)
 - You **can't approve your own PR**
 - Reviewer accounts must be **at least 30 days old**
-- All CI checks (security scanning, file size limits) must pass
+- All CI checks (security scanning, file size limits, and PR safety lint) must pass
+- Strict review mode is documented in [`STRICT_PR_REVIEW.md`](STRICT_PR_REVIEW.md)
 
 ## What you can't do
 
