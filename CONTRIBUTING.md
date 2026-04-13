@@ -33,6 +33,7 @@ Anything. Code in any language, documentation, proposals, architecture decisions
 - Reviewer accounts must be **at least 30 days old**
 - All CI checks (security scanning, file size limits, and PR safety lint) must pass
 - Strict review mode is documented in [`STRICT_PR_REVIEW.md`](STRICT_PR_REVIEW.md)
+- The intent is **low-friction contribution, not paranoia theater**: most normal PRs should still feel easy to open and review, while anything that expands execution, rendering, workflow permissions, or trust-boundary risk gets a sharper pass
 
 ## What you can't do
 
