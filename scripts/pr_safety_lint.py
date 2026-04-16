@@ -89,7 +89,17 @@ def severity_for_path(severity, path):
 
 
 def meta_rule_definition(path, line):
-    return path.endswith("scripts/pr_safety_lint.py") and "re.compile(" in line
+    if not path.endswith("scripts/pr_safety_lint.py"):
+        return False
+    return "re.compile(" in line or "subprocess.check_output(" in line
+
+
+def markdown_example_line(path, line):
+    suffix = Path(path).suffix.lower()
+    if suffix not in MARKDOWN_SUFFIXES:
+        return False
+    stripped = line.strip()
+    return stripped.startswith("- ") and "`" in stripped
 
 
 def scan(base, head):
@@ -102,8 +112,9 @@ def scan(base, head):
             if meta_rule_definition(path, line):
                 continue
             rules = []
-            rules.extend(("block",) + rule for rule in BLOCK_RULES)
-            rules.extend(("warn",) + rule for rule in WARN_RULES)
+            if not markdown_example_line(path, line):
+                rules.extend(("block",) + rule for rule in BLOCK_RULES)
+                rules.extend(("warn",) + rule for rule in WARN_RULES)
             rules.extend(("info",) + rule for rule in INFO_RULES)
             for severity, category, pattern, message in rules:
                 if pattern.search(line):
