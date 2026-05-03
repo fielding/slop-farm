@@ -3,7 +3,11 @@
 A standalone HTML timeline viewer for the receipt log.
 
 Generates a single self-contained HTML file that renders receipts as a filterable,
-sortable timeline — no server needed, no external dependencies.
+sortable timeline snapshot — no server needed, no external dependencies.
+
+`timeline.html` is generated output, not a live reader: it embeds the receipt data
+that existed when `build.py` last ran. Re-run the builder after `receipts.jsonl`
+changes if you want the page to reflect newer receipts.
 
 ## What it shows
 
@@ -23,12 +27,12 @@ python3 tools/receipt-log/viewer/build.py
 # Custom paths
 python3 tools/receipt-log/viewer/build.py path/to/receipts.jsonl output.html
 
-# Then open the generated timeline.html in a browser
+# Then open the generated timeline.html snapshot in a browser
 ```
 
 ## Design notes
 
-- **Single file output** — no CSS/JS assets to manage, just `timeline.html`
+- **Single file output** — no CSS/JS assets to manage, just a generated `timeline.html` snapshot
 - **Dark mode** — matches the aesthetic of the broader Slop Farm project
 - **Zero dependencies** — pure Python for build, vanilla HTML/CSS/JS for output
 - **Append-only friendly** — re-run the builder any time the JSONL grows
