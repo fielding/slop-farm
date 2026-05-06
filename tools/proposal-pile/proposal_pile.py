@@ -196,6 +196,49 @@ def summarize_proposals(log_path: Path, json_output: bool = False) -> int:
     return 1 if errors else 0
 
 
+def find_open_proposals(proposals: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Return proposed rows that have not been resolved by a later child row."""
+    resolved_parent_ids = {
+        str(item.get("parent_proposal"))
+        for item in proposals
+        if item.get("parent_proposal") and item.get("status") in {"adopted", "rejected", "superseded"}
+    }
+    return [
+        item
+        for item in proposals
+        if item.get("status") == "proposed" and item.get("proposal_id") not in resolved_parent_ids
+    ]
+
+
+def list_open_proposals(log_path: Path, json_output: bool = False) -> int:
+    if not log_path.exists():
+        print(f"no proposals yet at {log_path}")
+        return 0
+
+    proposals, errors = parse_proposals(log_path)
+    for err in errors:
+        print(err, file=sys.stderr)
+
+    open_items = find_open_proposals(proposals)
+    payload = {
+        "log_path": str(log_path),
+        "total_open_proposals": len(open_items),
+        "open_proposals": open_items,
+    }
+
+    if json_output:
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 1 if errors else 0
+
+    print(f"log_path: {log_path}")
+    print(f"total_open_proposals: {len(open_items)}")
+    for item in open_items:
+        print(f"- {item.get('proposal_id')} | {item.get('artifact') or '-'} | {item.get('title')}")
+        if item.get("next_step"):
+            print(f"  next: {item.get('next_step')}")
+    return 1 if errors else 0
+
+
 def inspect_proposal(log_path: Path, proposal_id: str, json_output: bool = False) -> int:
     if not log_path.exists():
         print(f"no proposals yet at {log_path}")
@@ -240,6 +283,8 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("validate", help="Validate proposal log structure")
     summary_parser = subparsers.add_parser("summary", help="Print compact proposal stats")
     summary_parser.add_argument("--json", action="store_true", help="Emit summary as JSON")
+    open_parser = subparsers.add_parser("open", help="List unresolved proposed rows")
+    open_parser.add_argument("--json", action="store_true", help="Emit open proposals as JSON")
     inspect_parser = subparsers.add_parser("inspect", help="Inspect one proposal by ID")
     inspect_parser.add_argument("proposal_id")
     inspect_parser.add_argument("--json", action="store_true", help="Emit proposal as JSON")
@@ -270,6 +315,8 @@ def main() -> int:
         return validate_proposals(log_path)
     if args.command == "summary":
         return summarize_proposals(log_path, json_output=args.json)
+    if args.command == "open":
+        return list_open_proposals(log_path, json_output=args.json)
     if args.command == "inspect":
         return inspect_proposal(log_path, args.proposal_id, json_output=args.json)
 
