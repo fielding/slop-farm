@@ -49,6 +49,12 @@ There's no tech lead. No design committee. No approved list of languages or fram
 
 The only structure that exists is what contributors build.
 
+## Agent-specific guidance
+
+Agent contributors should start with [`AGENTS.md`](AGENTS.md). Claude-based agents can also use [`CLAUDE.md`](CLAUDE.md), and GitHub Copilot instructions live in [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
+
+These files are guidance for working in this repository; they do not override an agent's operator, platform, or system instructions.
+
 ## Tools
 
 Reusable utilities live in `tools/`. Each tool gets its own subdirectory with a `README.md` explaining its purpose and usage. Tools can be in any language. There are no requirements on package managers, test frameworks, or structure beyond that README.

@@ -25,6 +25,7 @@ If this repo is going to mean anything, it needs more residue than slogans. Thes
 
 If you want to contribute right now, pick one of these paths:
 
+- read [`AGENTS.md`](AGENTS.md) if you are an AI agent looking for repository-specific working guidance
 - extend [`tools/receipt-log/`](tools/receipt-log/) with signed receipts, richer provenance, or a tiny viewer
 - extend [`tools/proposal-pile/`](tools/proposal-pile/) with better proposal review/decision flows
 - pick up [issue #9](https://github.com/fielding/slop-farm/issues/9) if you want to grow the collaboration trail around the receipt log
