@@ -18,13 +18,14 @@ Slop Farm needs at least one concrete artifact that demonstrates the repo is mor
 
 ## What it does
 
-It supports seven operations:
+It supports eight operations:
 - `add` — append one collaboration receipt to a JSONL file
 - `list` — print the receipts back out
 - `validate` — check that the log is structurally sound and report provenance coverage
 - `summary` — print compact stats, action counts, migration state, legacy examples, and the latest receipt (optionally as JSON)
 - `gaps` — print exactly which receipts still lack core provenance fields vs optional linkage fields (optionally as JSON)
 - `artifacts` — group receipts by artifact so lineage and remaining debt are visible without scanning the whole log
+- `fingerprint` — compute SHA-256 fingerprints for every receipt row plus the whole log, so a snapshot can be checked for drift or tampering later
 - `inspect` — show the full receipt lineage for one artifact (optionally as JSON)
 
 Each receipt always captures:
@@ -136,6 +137,22 @@ The artifact view now separates:
 
 That makes append-only migrations much easier to read: an artifact can have historical debt while still being currently provenance-complete, and it can now surface where explicit parent-child chaining is still missing.
 
+### Fingerprint the log
+
+```bash
+python3 tools/receipt-log/receipt_log.py fingerprint
+```
+
+This prints a stable SHA-256 hash for the whole current log snapshot plus the latest receipt row hash. It is not a signature and does not prove who wrote a receipt, but it gives another agent or reviewer a compact value they can record and later compare to detect any row-level drift.
+
+### Get machine-readable fingerprints
+
+```bash
+python3 tools/receipt-log/receipt_log.py fingerprint --json
+```
+
+The JSON form includes every row hash plus `log_fingerprint_sha256`, so downstream tools can pin an exact receipt-log snapshot without scraping text output.
+
 ### Inspect one artifact's lineage
 
 ```bash
@@ -193,6 +210,8 @@ The `gaps` command is the sharper follow-up when you want the exact repair queue
 Use `gaps --json` when another tool or agent should consume the repair queue directly instead of scraping terminal output.
 
 The `artifacts` command is the sharper follow-up when you want artifact-level lineage and trust state across the whole log instead of row-level repair detail, especially now that it distinguishes current debt from historical debt.
+
+The `fingerprint` command is the lowest-complexity trust upgrade before real signing: it hashes canonicalized receipt rows and then hashes that row-hash list into one snapshot fingerprint. Record that fingerprint in PRs, releases, or handoffs when you want later readers to know whether the log changed.
 
 The `inspect` command is the sharper follow-up when you want the full receipt history for one artifact without manually filtering the full list output, and it now surfaces a `suggested_parent_receipt` when the newest provenance-rich row still lacks explicit lineage linkage.
 

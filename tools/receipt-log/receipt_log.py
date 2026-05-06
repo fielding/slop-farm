@@ -14,6 +14,19 @@ LINKAGE_FIELDS = ("parent_receipt",)
 ALL_TRACKED_FIELDS = CORE_PROVENANCE_FIELDS + LINKAGE_FIELDS
 
 
+def canonical_receipt_payload(receipt: dict[str, Any]) -> str:
+    """Return the stable JSON payload used for receipt fingerprinting."""
+    return json.dumps(receipt, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def receipt_fingerprint(receipt: dict[str, Any]) -> str:
+    return hashlib.sha256(canonical_receipt_payload(receipt).encode("utf-8")).hexdigest()
+
+
+def log_fingerprint(row_hashes: list[str]) -> str:
+    return hashlib.sha256("\n".join(row_hashes).encode("utf-8")).hexdigest()
+
+
 def utc_now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 
@@ -470,6 +483,58 @@ def report_artifacts(log_path: Path, json_output: bool = False) -> int:
     return 1 if errors else 0
 
 
+def report_fingerprints(log_path: Path, json_output: bool = False, tail: int = 5) -> int:
+    if not log_path.exists():
+        print(f"no receipts yet at {log_path}")
+        return 0
+
+    receipts, errors = parse_receipts(log_path)
+    for err in errors:
+        print(err, file=sys.stderr)
+
+    rows = []
+    for i, item in enumerate(receipts, start=1):
+        row_hash = receipt_fingerprint(item)
+        rows.append(
+            {
+                "index": i,
+                "receipt_id": item.get("receipt_id"),
+                "timestamp": item.get("timestamp"),
+                "action": item.get("action"),
+                "artifact": item.get("artifact"),
+                "sha256": row_hash,
+            }
+        )
+
+    fingerprint = log_fingerprint([row["sha256"] for row in rows])
+    payload = {
+        "log_path": str(log_path),
+        "total_receipts": len(receipts),
+        "log_fingerprint_sha256": fingerprint,
+        "latest_receipt_sha256": rows[-1]["sha256"] if rows else None,
+        "rows": rows,
+    }
+
+    if json_output:
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 1 if errors else 0
+
+    print(f"log_path: {log_path}")
+    print(f"total_receipts: {len(receipts)}")
+    print(f"log_fingerprint_sha256: {fingerprint}")
+    if not rows:
+        return 1 if errors else 0
+
+    print(f"latest_receipt_sha256: {rows[-1]['sha256']}")
+    shown_rows = rows[-tail:] if tail else []
+    print(f"last_{len(shown_rows)}_rows:")
+    for row in shown_rows:
+        receipt_id = row.get("receipt_id") or "-"
+        print(f"  [{row['index']}] {row['sha256']} | {receipt_id} | {row.get('action')} | {row.get('artifact')}")
+
+    return 1 if errors else 0
+
+
 def inspect_artifact(log_path: Path, artifact: str, json_output: bool = False) -> int:
     if not log_path.exists():
         print(f"no receipts yet at {log_path}")
@@ -559,6 +624,9 @@ def build_parser() -> argparse.ArgumentParser:
     gaps_parser.add_argument("--json", action="store_true", help="Emit gap details as JSON for machine consumption")
     artifacts_parser = subparsers.add_parser("artifacts", help="Group receipts by artifact and show lineage/coverage at that level")
     artifacts_parser.add_argument("--json", action="store_true", help="Emit artifact groups as JSON for machine consumption")
+    fingerprint_parser = subparsers.add_parser("fingerprint", help="Compute tamper-evident SHA-256 fingerprints for receipt rows and the full log")
+    fingerprint_parser.add_argument("--json", action="store_true", help="Emit fingerprints as JSON for machine consumption")
+    fingerprint_parser.add_argument("--tail", type=int, default=5, help="Number of recent row hashes to show in text output")
     inspect_parser = subparsers.add_parser("inspect", help="Show the full receipt lineage for one artifact")
     inspect_parser.add_argument("artifact", help="Exact artifact path/name to inspect")
     inspect_parser.add_argument("--json", action="store_true", help="Emit artifact lineage as JSON for machine consumption")
@@ -593,6 +661,8 @@ def main() -> int:
         return report_gaps(log_path, json_output=args.json)
     if args.command == "artifacts":
         return report_artifacts(log_path, json_output=args.json)
+    if args.command == "fingerprint":
+        return report_fingerprints(log_path, json_output=args.json, tail=max(args.tail, 0))
     if args.command == "inspect":
         return inspect_artifact(log_path, args.artifact, json_output=args.json)
 
