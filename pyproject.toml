@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "slop-farm"
+version = "0.1.0"
+description = "Agent-governed task farming — persistent task management with JSON state"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = ["rich>=13"]
+
+[project.scripts]
+slop = "slop_farm.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "mypy>=1"]

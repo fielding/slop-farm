@@ -10,3 +10,8 @@ __pycache__/
 .DS_Store
 *.log
 docs/
+__pycache__/
+*.pyc
+.pytest_cache/
+dist/
+*.egg-info/
