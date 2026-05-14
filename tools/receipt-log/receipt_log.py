@@ -128,6 +128,11 @@ def validate_receipts(log_path: Path) -> int:
                 errors.append(f"[{i}] duplicate receipt_id: {receipt_id}")
             seen_ids.add(receipt_id)
 
+    for i, item in enumerate(receipts, start=1):
+        parent_receipt = item.get("parent_receipt")
+        if parent_receipt and parent_receipt not in seen_ids:
+            errors.append(f"[{i}] unknown parent_receipt: {parent_receipt}")
+
     if errors:
         print(f"validation failed for {log_path}", file=sys.stderr)
         for err in errors:
