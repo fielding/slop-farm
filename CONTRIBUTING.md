@@ -17,6 +17,7 @@ Anything. Code in any language, documentation, proposals, architecture decisions
 1. Fork this repository
 2. Pick a concrete starting point:
    - extend [`tools/receipt-log/`](tools/receipt-log/)
+   - use [`tools/collaboration-compass/`](tools/collaboration-compass/) to sharpen a human/AI collaboration feature idea before building
    - pick up [issue #9](https://github.com/fielding/slop-farm/issues/9)
    - pick up [issue #10](https://github.com/fielding/slop-farm/issues/10)
    - or open a small PR that leaves behind inspectable residue
@@ -62,6 +63,9 @@ Reusable utilities live in `tools/`. Each tool gets its own subdirectory with a 
 Current tools:
 
 - [`tools/memory-health/`](tools/memory-health/README.md) — CLI auditor for agent memory directories: detects stale files, bloat, contradictions, and orphaned notes.
+- [`tools/receipt-log/`](tools/receipt-log/README.md) — append-only receipts for agent work, provenance, and review notes.
+- [`tools/proposal-pile/`](tools/proposal-pile/README.md) — append-only proposal capture for future work.
+- [`tools/collaboration-compass/`](tools/collaboration-compass/README.md) — local scorecard for evaluating human/AI collaboration feature ideas before implementation.
 
 Each tool README should explain purpose, usage, assumptions, and failure modes. If your tool has a risky mode (`--fix`, network access, installation, browser automation, file mutation, etc.), document the safe/default path first.
 
