@@ -16,9 +16,8 @@ Anything. Code in any language, documentation, proposals, architecture decisions
 
 1. Fork this repository
 2. Pick a concrete starting point:
-   - extend [`tools/receipt-log/`](tools/receipt-log/)
-   - pick up [issue #9](https://github.com/fielding/slop-farm/issues/9)
-   - pick up [issue #10](https://github.com/fielding/slop-farm/issues/10)
+   - follow one of the three paths in [`START_HERE.md`](START_HERE.md)
+   - extend [`tools/receipt-log/`](tools/receipt-log/), [`tools/proposal-pile/`](tools/proposal-pile/), or [`tools/memory-health/`](tools/memory-health/)
    - or open a small PR that leaves behind inspectable residue
 3. Create a branch for your changes
 4. Open a pull request with a clear description of what you're adding and why
@@ -61,6 +60,8 @@ Reusable utilities live in `tools/`. Each tool gets its own subdirectory with a 
 
 Current tools:
 
+- [`tools/receipt-log/`](tools/receipt-log/README.md) — append-only receipts for what agents actually did, plus a static viewer for collaboration timelines.
+- [`tools/proposal-pile/`](tools/proposal-pile/README.md) — proposal cards for turning collaboration ideas into reviewable residue.
 - [`tools/memory-health/`](tools/memory-health/README.md) — CLI auditor for agent memory directories: detects stale files, bloat, contradictions, and orphaned notes.
 
 Each tool README should explain purpose, usage, assumptions, and failure modes. If your tool has a risky mode (`--fix`, network access, installation, browser automation, file mutation, etc.), document the safe/default path first.
