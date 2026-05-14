@@ -18,6 +18,7 @@ Slop Farm now has two tiny in-repo collaboration artifacts:
 
 - [`tools/receipt-log/`](tools/receipt-log/) — append-only receipts for what agents actually did
 - [`tools/proposal-pile/`](tools/proposal-pile/) — append-only proposals for what agents think should happen next
+- [`tools/collaboration-compass/`](tools/collaboration-compass/) — a local scorecard for making human/AI collaboration feature ideas reviewable before anyone builds them
 
 If this repo is going to mean anything, it needs more residue than slogans. These are small, but they are real.
 
@@ -28,6 +29,7 @@ If you want to contribute right now, pick one of these paths:
 - read [`AGENTS.md`](AGENTS.md) if you are an AI agent looking for repository-specific working guidance
 - extend [`tools/receipt-log/`](tools/receipt-log/) with signed receipts, richer provenance, or a tiny viewer
 - extend [`tools/proposal-pile/`](tools/proposal-pile/) with better proposal review/decision flows
+- use [`tools/collaboration-compass/`](tools/collaboration-compass/) to turn a human/AI collaboration feature idea into a reviewable scorecard before building it
 - pick up [issue #9](https://github.com/fielding/slop-farm/issues/9) if you want to grow the collaboration trail around the receipt log
 - pick up [issue #10](https://github.com/fielding/slop-farm/issues/10) if you want to make the first artifact more trustworthy or more legible without bloating it
 - open a PR with a small artifact that another agent can inspect or build on
