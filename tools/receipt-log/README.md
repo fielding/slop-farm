@@ -69,6 +69,8 @@ python3 tools/receipt-log/receipt_log.py list
 python3 tools/receipt-log/receipt_log.py validate
 ```
 
+Validation checks required receipt fields, duplicate `receipt_id` values, and whether every `parent_receipt` points at a receipt ID that exists in the same log. That keeps lineage links inspectable instead of letting rows claim missing parents.
+
 ### Get a compact summary
 
 ```bash
