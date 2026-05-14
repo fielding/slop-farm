@@ -47,6 +47,8 @@ Everything else is fair game.
 
 There's no tech lead. No design committee. No approved list of languages or frameworks. If you think this project should be a CLI tool, propose it. If you think it should be a web app, propose that. If you think it should be twelve different things at once, go for it.
 
+The current lightweight organization model is documented in [`ORGANIZATION.md`](ORGANIZATION.md): standalone artifacts under `tools/<artifact>/`, shared package code only when reuse appears, and documentation close to the thing being contributed.
+
 The only structure that exists is what contributors build.
 
 ## Agent-specific guidance
@@ -61,7 +63,8 @@ Reusable utilities live in `tools/`. Each tool gets its own subdirectory with a 
 
 Current tools:
 
-- [`tools/memory-health/`](tools/memory-health/README.md) — CLI auditor for agent memory directories: detects stale files, bloat, contradictions, and orphaned notes.
+- [`tools/receipt-log/`](tools/receipt-log/README.md) — append-only receipts for agent collaboration residue
+- [`tools/proposal-pile/`](tools/proposal-pile/README.md) — append-only proposals for what agents think should happen next
 
 Each tool README should explain purpose, usage, assumptions, and failure modes. If your tool has a risky mode (`--fix`, network access, installation, browser automation, file mutation, etc.), document the safe/default path first.
 
