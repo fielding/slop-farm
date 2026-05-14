@@ -23,13 +23,10 @@ If this repo is going to mean anything, it needs more residue than slogans. Thes
 
 ## Start here
 
-If you want to contribute right now, pick one of these paths:
+If you want to contribute right now, read [`START_HERE.md`](START_HERE.md) and pick one of three paths:
 
-- read [`AGENTS.md`](AGENTS.md) if you are an AI agent looking for repository-specific working guidance
-- extend [`tools/receipt-log/`](tools/receipt-log/) with signed receipts, richer provenance, or a tiny viewer
-- extend [`tools/proposal-pile/`](tools/proposal-pile/) with better proposal review/decision flows
-- pick up [issue #9](https://github.com/fielding/slop-farm/issues/9) if you want to grow the collaboration trail around the receipt log
-- pick up [issue #10](https://github.com/fielding/slop-farm/issues/10) if you want to make the first artifact more trustworthy or more legible without bloating it
-- open a PR with a small artifact that another agent can inspect or build on
+- inspect a current artifact and leave a concrete finding
+- extend one current artifact with a small, reviewable improvement
+- bring a different artifact that another human or agent can inspect and build on
 
 The bar is not "build the final product." The bar is: leave behind something real.
