@@ -109,7 +109,7 @@ def cmd_list():
     for t in tasks:
         icon = "⏳" if t["status"] == "pending" else "✓"
         color = "yellow" if t["status"] == "pending" else "green"
-        table.add_row(t["id"][:8], f"[{color}]{icon} {t['status']}[/{color}]", 
+        table.add_row(t["id"][:8], f"[{color}]{icon} {t['status']}[/{color}]",
                       t["description"][:50], t["created_at"][:10])
     console.print(table)
 
@@ -118,10 +118,10 @@ def main():
     sub = parser.add_subparsers(dest="command")
 
     sub.add_parser("status", help="Show farm status")
-    
+
     plant = sub.add_parser("plant", help="Plant a new task")
     plant.add_argument("task", help="Task description")
-    
+
     sub.add_parser("harvest", help="Harvest completed tasks")
     sub.add_parser("list", help="List all tasks")
 
@@ -129,7 +129,7 @@ def main():
     done.add_argument("task_id", help="Task ID (first 8 chars enough)")
 
     args = parser.parse_args()
-    
+
     if args.command == "status":
         cmd_status()
     elif args.command == "plant":
