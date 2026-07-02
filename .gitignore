@@ -10,8 +10,10 @@ __pycache__/
 .DS_Store
 *.log
 docs/
-__pycache__/
-*.pyc
 .pytest_cache/
 dist/
 *.egg-info/
+
+# Verifier artifacts from `uv run --extra dev pytest` (the documented test command)
+.venv/
+uv.lock
